@@ -48,14 +48,7 @@ export default {
     return {
       form: {
         name: "admin",
-        password: "admin",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        password: "admin"
       }
     };
   },
