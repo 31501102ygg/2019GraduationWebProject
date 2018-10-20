@@ -1,0 +1,87 @@
+<template>
+    <el-container class='login-container' >
+        <el-header>
+            电影影评网站后台
+        </el-header>
+        <el-container class="form-container">
+            <el-main>
+                <el-row>
+                    <el-col :span='12'><img style="height:500px" src="@/assets/login-pic.jpg" alt="阿甘正传"></el-col>
+                    <el-col :span='12'>
+                        <el-card class="box-card">
+                            <el-form ref="form" :model="form" label-width="80px">
+                                <el-form-item  class="form-item">   
+                                    <span style="font-size:30px">电影影评网站后台管理</span>
+                                </el-form-item> 
+                                <el-form-item  class="form-item">   
+                                    <icon style = "float:left;" name="user" split="" :w="40" :h="40"></icon>
+                                    <el-input style="width:80%" v-model="form.name"></el-input>
+                                </el-form-item> 
+                                <el-form-item class="form-item"> 
+                                    <icon style = "float:left;" name="password" split="" :w="40" :h="40"></icon>                                    
+                                    <el-input style="width:80%" v-model="form.password"></el-input>
+                                </el-form-item> 
+                                <el-form-item class="form-item"> 
+                                    <el-button style="width:80%" type="primary"  @click.native.prevent="login">
+                                    登录
+                                    </el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
+                    </el-col>
+                </el-row>
+            </el-main>
+        </el-container>
+        <el-footer>
+            底部
+        </el-footer>
+    </el-container>
+</template>
+
+<script>
+import Icon from 'vue2-svg-icon/Icon.vue'
+
+export default {
+  name: "Login",
+
+  data() {
+    return {
+      form: {
+        name: "admin",
+        password: "admin",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: ""
+      }
+    };
+  },
+  methods:{
+      login (){
+          console.log("login")
+      }
+  },
+  components: {
+    Icon
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+    .login-container{
+        margin: 0%;
+    }
+    .form-item{
+        margin: 10%;
+        margin-left: 0px;
+    }
+    .box-card{
+        background-color:#DCDFE6;
+        text-align: center;
+        width: 80%; 
+        height: 500px;
+    }
+</style>
