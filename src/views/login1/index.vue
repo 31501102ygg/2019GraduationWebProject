@@ -40,6 +40,7 @@
 
 <script>
 import Icon from 'vue2-svg-icon/Icon.vue'
+import qs from 'qs';
 
 export default {
   name: "Login",
@@ -47,13 +48,25 @@ export default {
   data() {
     return {
       form: {
-        name: "admin",
-        password: "admin"
+        name: "ygg",
+        password: "123456"
       }
     };
   },
   methods:{
       login (){
+          var data = qs.stringify({
+                  username:this.form.name,
+                  password:this.form.password
+          })
+          this.$axios.post('/login',data)
+          .then(function(res){
+              return Promise.resolve(res.data);
+          }).then(function(json){
+              console.log(json.message)
+          }).catch(function(error){
+              console.log(error)
+          })
           console.log("login")
       }
   },

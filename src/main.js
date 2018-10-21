@@ -5,6 +5,12 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router'
+import axios from "axios"
+import global_ from './utils/global.vue'
+
+Vue.prototype.GLOBAL = global_;
+axios.defaults.baseURL=global_.BASE_URL;
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
