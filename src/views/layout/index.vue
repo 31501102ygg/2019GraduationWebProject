@@ -2,36 +2,28 @@
     <el-container style="width:100%;height:100%">
     <el-row class="tac" style="width:100%;height:100%">
       <el-container id="navBar" :style="{width:navBarWidth+'vw'}">
-        <el-menu
-      default-active="2"
+      <el-menu id="navbar"
+      default-active="1-1"
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
       background-color="#3f51b5"
       text-color="#fff"
       active-text-color="#ffd04b"
-      :collapse="isCollapse"
       :style="{width:navBarWidth+'vw'}">
       <el-submenu index="1">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <icon style = "float:left;height:3vh;margin:1.5vh;" name="user-admin" split="" ></icon>
           <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">网站用户</el-menu-item>
+          <el-menu-item index="1-1" @click.native.prevent="breadCrumbAdd">网站用户</el-menu-item>
           <el-menu-item index="1-2">后台管理员</el-menu-item>
         </el-menu-item-group>
-        <!-- <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu> -->
       </el-submenu>
         <el-submenu index="2">
         <template slot="title">
-          <i class="el-icon-location"></i>
+          <icon style = "float:left;height:3vh;margin:1.5vh;" name="movie" split="" ></icon>
           <span>电影信息</span>
         </template>
         <el-menu-item-group>
@@ -41,8 +33,8 @@
       </el-submenu>
       <el-submenu index="3">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>电影影评信息</span>
+          <icon style = "float:left;height:3vh;margin:1.5vh;" name="paper" split="" ></icon>
+          <span>影评信息</span>
         </template>
         <el-menu-item-group>
           <el-menu-item index="3-1">电影影评</el-menu-item>
@@ -54,7 +46,7 @@
     <el-container style="height:100%;display：inline-block;">
       <el-header style="height:5%;padding:0;background-color:#9fa8da">
         <el-breadcrumb separator-class="el-icon-arrow-right" style="line-height:5vh;">
-          <icon style = "float:left;height:5vh" name="ham-toolbar" split="" @click.native.prevent="navBarChange"></icon>
+          <icon style = "float:left;height:5vh" name="bread-logo" split="" ></icon>
           <el-breadcrumb-item >首页</el-breadcrumb-item>
           <el-breadcrumb-item>活动管理</el-breadcrumb-item>
           <el-breadcrumb-item>活动列表</el-breadcrumb-item>
@@ -72,8 +64,8 @@
       </el-dropdown>
         </el-breadcrumb>
       </el-header>
-      <el-main style="height:90%">
-        <router-view class="admin_page_main"></router-view>
+      <el-main style="width:100%;height:90%">
+        <router-view ></router-view>
       </el-main>
     </el-container>
 </el-row>
@@ -88,7 +80,7 @@ export default {
   data() {
     return {
         adminName: "ygg",
-        isCollapse:false,
+        isCollapse:true,
         navBarWidth: 15,
         breadcrumb:{}
     };
@@ -102,15 +94,8 @@ export default {
       this.adminName = "ygg"
       console.log(key, keyPath);
     },
-    navBarChange(){
-      var width = this.navBarWidth;
-      if(this.isCollapse===true){
-        this.isCollapse = false;
-        this.navBarWidth = 15;
-      }else{
-        this.navBarWidth = 4;
-        this.isCollapse = true;
-      }
+    breadCrumbAdd(){
+      console.log(document.getElementById("navbar"));
     }
   },
   components: {

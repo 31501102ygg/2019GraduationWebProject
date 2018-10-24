@@ -67,16 +67,17 @@ export default {
       });
       this.$axios
         .post("/login", data)
-        .then(function(res) {
+        .then((res) =>{
           return Promise.resolve(res.data);
         })
-        .then(function(json) {
-          console.log(json.message);
+        .then((json) => {
+          sessionStorage.setItem("JWT", json.data.token);
+          console.log('success login!!!')
         })
         .catch(function(error) {
           console.log(error);
         });
-      console.log("login");
+        console.log("login")
     }
   },
   components: {
