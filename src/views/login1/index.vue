@@ -1,5 +1,5 @@
 <template>
-    <el-container class='login-container' style="height:100%">
+    <el-container v-loading="loading" class='login-container' style="height:100%">
         <el-header style="height:0%">
         </el-header>
         <el-container class="form-container" style="height:85%">
@@ -53,6 +53,7 @@ export default {
 
   data() {
     return {
+      loading:false,
       form: {
         name: "ygg",
         password: "123456"
@@ -61,6 +62,7 @@ export default {
   },
   methods: {
     login() {
+      this.loading = true
       var data = qs.stringify({
         username: this.form.name,
         password: this.form.password
@@ -68,11 +70,21 @@ export default {
       this.$axios
         .post("/login", data)
         .then((res) =>{
+          this.loading = false
           return Promise.resolve(res.data);
         })
         .then((json) => {
-          sessionStorage.setItem("JWT", json.data.token);
-          console.log('success login!!!')
+            if(json.code == 'ACK'){
+                sessionStorage.setItem("JWT", json.data.token);
+                console.log('success login!!!')
+                if(json.data.role == "admin")
+                    this.$router.push("/admin/page/manage/user")
+                else
+                    this.$router.push("/admin/page/manage")
+            }
+            else{
+
+            }
         })
         .catch(function(error) {
           console.log(error);

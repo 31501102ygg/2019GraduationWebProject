@@ -7,6 +7,7 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
+      @select="handleSelect"
       background-color="#3f51b5"
       text-color="#fff"
       active-text-color="#ffd04b"
@@ -47,17 +48,14 @@
       <el-header style="height:5%;padding:0;background-color:#9fa8da">
         <el-breadcrumb separator-class="el-icon-arrow-right" style="line-height:5vh;">
           <icon style = "float:left;height:5vh" name="bread-logo" split="" ></icon>
-          <el-breadcrumb-item >首页</el-breadcrumb-item>
-          <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-          <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-          <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          <el-breadcrumb-item style="color=white" v-for="nav in navBarName" :key="nav.id">{{nav.name}}</el-breadcrumb-item>
           <img src="@/assets/admin-head.png" alt="头像" style="float:right;height:5vh">
         <el-dropdown style="float:right;line-height:5vh;padding-right:1vw">
           <span class="el-dropdown-link" style="color:#303133">
             {{adminName}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>注册</el-dropdown-item>
             <el-dropdown-item disabled>双皮奶</el-dropdown-item>
             <el-dropdown-item divided>退出</el-dropdown-item>
           </el-dropdown-menu>
@@ -75,6 +73,41 @@
 <script>
 import Icon from "vue2-svg-icon/Icon.vue";
 
+var navbar = [
+  {
+    name:'用户管理',
+    children:[
+      {
+        name:'网站用户'
+      },
+      {
+        name:'后台管理员'
+      }
+    ]
+  },
+  {
+    name:'电影信息',
+    children:[
+        {
+          name:'电影上传'
+        },
+        {
+          name:'后台管理员'
+        }
+      ]
+  },
+  {
+    name:'影评信息',
+    children:[
+      {
+        name:'电影影评'
+      },
+      {
+        name:'后台管理员'
+      }
+    ]
+  }
+];
 export default {
   name: "admin_layout",
   data() {
@@ -82,7 +115,11 @@ export default {
         adminName: "ygg",
         isCollapse:true,
         navBarWidth: 15,
-        breadcrumb:{}
+        breadcrumb:{},
+        navBarName:[
+          {name:'用户管理'},
+          {name:'网站用户'}
+          ]
     };
   },
   methods: {
@@ -93,6 +130,22 @@ export default {
     handleClose(key, keyPath) {
       this.adminName = "ygg"
       console.log(key, keyPath);
+    },
+    handleSelect(key, keyPath){
+      console.log(keyPath)
+      var index = keyPath[keyPath.length-1].match(/\d/g)
+      var nav=[],temp
+      for(let i of index){
+        if(temp!=null)
+          temp = temp.children[i-1]
+        else
+          temp = navbar[i-1]
+        console.log(temp)
+        let ob = new Object();
+        ob.name = temp.name
+        nav.push(ob)
+      }
+      this.navBarName = nav
     },
     breadCrumbAdd(){
       console.log(document.getElementById("navbar"));
@@ -119,5 +172,8 @@ export default {
 #navBar{
   height:100%;
   float: left;
+}
+.el-breadcrumb__inner{
+  color: white
 }
 </style>

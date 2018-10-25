@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%">
+    <div style="width:100%;height:100%">
         <div style="width:100%">
         <el-form :inline="true" :model="formInline" class="demo-form-inline" style="float:left;margin-left:2vw">
             <el-form-item label="用户名">
@@ -22,7 +22,7 @@
             width="55">
             </el-table-column>
             <el-table-column
-            prop="date"
+            prop="createDate"
             label="日期"
             width="120">
             </el-table-column>
@@ -31,17 +31,22 @@
             label="账号"
             width="120">
             </el-table-column>
-            <el-table-column
-            prop="address"
-            label="地址"
+             <el-table-column
+            prop="nickname"
+            label="姓名"
             width="120">
             </el-table-column>
-             <el-table-column
-            prop="username"
-            label="姓名"
-            show-overflow-tooltip>
+            <el-table-column
+            prop="phoneNumber"
+            label="手机号"
+            width="120">
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column
+            prop="email"
+            label="邮箱"
+            width="180">
+            </el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip>
                 <template slot-scope="scope">
                     <el-button
                     size="mini"
@@ -53,6 +58,61 @@
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-dialog title="用户详细信息" :visible.sync="dialogFormVisible">
+          <el-form :model="form"  >
+            <el-container>
+              <el-form-item label="用户名" :label-width="formLabelWidth" >
+                <el-input v-model="form.username" autocomplete="off" disabled></el-input>
+              </el-form-item>
+              <el-form-item label="昵称" :label-width="formLabelWidth">
+                <el-input v-model="form.nickname" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-container>
+            <el-form-item label="性别" :label-width="formLabelWidth" style="text-align:left">
+                <el-radio v-model="form.sex" label=0>男</el-radio>
+                <el-radio v-model="form.sex" label=1>女</el-radio>
+            </el-form-item>
+            <el-container>
+              <el-form-item label="电话" :label-width="formLabelWidth">
+                <el-input v-model="form.phoneNumber" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="邮件" :label-width="formLabelWidth">
+                <el-input v-model="form.email" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-container>
+            <el-container>
+              <el-form-item label="工作" :label-width="formLabelWidth">
+                <el-input v-model="form.occupation" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="所在地" :label-width="formLabelWidth">
+                <el-select v-model="form.location" placeholder="请选择所在地" style="float:left">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-container>
+            <el-form-item label="签名" :label-width="formLabelWidth" >
+                <el-input type="textarea"  
+                :rows="4" placeholder="请输入内容"
+                v-model="form.personalitySignature"
+                autocomplete="off"></el-input>
+              </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="submitUserForm()">确 定</el-button>
+          </div>
+        </el-dialog>
+
+        </div>
+        <div style="float:left">
+        <el-pagination 
+          background
+          layout="prev, pager, next"
+          @current-change="getSelectPage"
+          :total="pageNumber">
+        </el-pagination>
         </div>
     </div>
 </template>
@@ -62,33 +122,43 @@ import qs from "qs";
 
 export default {
     name:"managerUser",
+    created(){
+        this.$options.methods.getUserList.bind(this)(1);
+    },
     data() {
       return {
+        pageNumber:0,
+        dialogFormVisible: false,
         formInline: {
           user: '',
           region: ''
         },
         tableData: [],
-        multipleSelection: []
+        multipleSelection: [],
+        form: {},
+        formLabelWidth: '60px'
       }
     },
     methods: {
       onSubmit() {
-        var data = qs.stringify({
-            username: this.formInline.user
-        });
+        var data = {
+            username: this.formInline.user,
+            pageSize:10,
+            pageNum:1
+        };
         console.log(data);
         //设置请求头
         this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
         this.$axios
-        .post("/user/list", data)
+        .post("/user/search", data)
         .then(function(res) {
             console.log(res)
           return Promise.resolve(res.data);
         })
         .then((json) => {
-            this.tableData = json.data;
-          console.log(json.data);
+            this.tableData = json.data.list
+            this.pageNumber = json.data.pageNumber
+            console.log(json.data);
         })
         .catch(function(error) {
           console.log(error);
@@ -108,12 +178,64 @@ export default {
         console.log(val)
       },
       handleEdit(index, row) {
+        this.dialogFormVisible = true
+        this.form = row
         console.log(index, row);
       },
       handleDelete(index, row) {
         console.log(index, row);
+      },
+      submitUserForm(){
+        console.log(this.form);
+        this.$axios.post("/user/update",this.form)
+        .then(function(res) {
+          console.log(res.messgae)
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+        this.dialogFormVisible = false
+      },
+      getSelectPage(page){
+        this.$options.methods.getUserList.bind(this)(page);
+      },
+      getUserList(page){
+        console.log(page)
+        var data = {
+            pageNum:page,
+            pageSize:10
+        };
+        //设置请求头
+        this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
+        this.$axios
+        .post("/user/list", data)
+        .then(function(res) {
+            return Promise.resolve(res.data);
+        })
+        .then((json) => {
+            this.pageNumber = json.data.pageNumber;
+            this.tableData = json.data.list;
+            for(var data of json.data.list){
+              convertToString(data);
+            }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       }
     }
 }
+    function convertToString(form){
+      console.log(form)
+      if(form.sex===0)
+        form.sex='0';
+      else if(form.sex===1)
+        form.sex = '1'
+    }
 </script>
 
+<style>
+.el-form-item_label{
+  text-align: center;
+}
+</style>
