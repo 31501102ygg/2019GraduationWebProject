@@ -140,7 +140,6 @@ export default {
           temp = temp.children[i-1]
         else
           temp = navbar[i-1]
-        console.log(temp)
         let ob = new Object();
         ob.name = temp.name
         nav.push(ob)
@@ -155,7 +154,6 @@ export default {
     Icon
   }
 };
-
 </script>
 
 <style>

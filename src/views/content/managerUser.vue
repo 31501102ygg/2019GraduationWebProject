@@ -86,10 +86,12 @@
                 <el-input v-model="form.occupation" autocomplete="off"></el-input>
               </el-form-item>
               <el-form-item label="所在地" :label-width="formLabelWidth">
-                <el-select v-model="form.location" placeholder="请选择所在地" style="float:left">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+                <el-cascader
+                  placeholder="行政区划"
+                  :options="options"
+                  filterable
+                  change-on-select
+                ></el-cascader>
               </el-form-item>
             </el-container>
             <el-form-item label="签名" :label-width="formLabelWidth" >
@@ -124,6 +126,8 @@ export default {
     name:"managerUser",
     created(){
         this.$options.methods.getUserList.bind(this)(1);
+        this.options = this.GLOBAL.REGIONS
+        console.log(this.GLOBAL.REGIONS)
     },
     data() {
       return {
@@ -136,7 +140,8 @@ export default {
         tableData: [],
         multipleSelection: [],
         form: {},
-        formLabelWidth: '60px'
+        formLabelWidth: '60px',
+        options: []
       }
     },
     methods: {
@@ -152,13 +157,11 @@ export default {
         this.$axios
         .post("/user/search", data)
         .then(function(res) {
-            console.log(res)
           return Promise.resolve(res.data);
         })
         .then((json) => {
             this.tableData = json.data.list
             this.pageNumber = json.data.pageNumber
-            console.log(json.data);
         })
         .catch(function(error) {
           console.log(error);
@@ -200,7 +203,6 @@ export default {
         this.$options.methods.getUserList.bind(this)(page);
       },
       getUserList(page){
-        console.log(page)
         var data = {
             pageNum:page,
             pageSize:10
@@ -226,7 +228,6 @@ export default {
     }
 }
     function convertToString(form){
-      console.log(form)
       if(form.sex===0)
         form.sex='0';
       else if(form.sex===1)
