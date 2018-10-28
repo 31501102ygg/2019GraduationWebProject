@@ -91,6 +91,8 @@
                   :options="options"
                   filterable
                   change-on-select
+                  v-model="selectedOptions"
+                  @change="regionChange"
                 ></el-cascader>
               </el-form-item>
             </el-container>
@@ -141,7 +143,8 @@ export default {
         multipleSelection: [],
         form: {},
         formLabelWidth: '60px',
-        options: []
+        options: [],
+        selectedOptions:[]
       }
     },
     methods: {
@@ -183,6 +186,9 @@ export default {
       handleEdit(index, row) {
         this.dialogFormVisible = true
         this.form = row
+        this.selectedOptions = [];
+        if(this.form.location!=null)
+          this.selectedOptions = linkFatherRegions(this.form.location)
         console.log(index, row);
       },
       handleDelete(index, row) {
@@ -224,6 +230,10 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+      },
+      regionChange(value){
+        this.form.location = value[value.length-1]
+        console.log(this.form.location)
       }
     }
 }
@@ -232,6 +242,17 @@ export default {
         form.sex='0';
       else if(form.sex===1)
         form.sex = '1'
+    }
+
+    function linkFatherRegions(region){
+      var locations=[];
+      locations[0]=region-region%1000;
+      if(region!=locations[0]){
+        locations[1]=region-region%100;
+        if(region!=locations[1])
+          locations[2] = region;
+      }
+      return locations;
     }
 </script>
 
