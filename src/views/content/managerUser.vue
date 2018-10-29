@@ -128,8 +128,7 @@ export default {
     name:"managerUser",
     created(){
         this.$options.methods.getUserList.bind(this)(1);
-        this.options = this.GLOBAL.REGIONS
-        console.log(this.GLOBAL.REGIONS)
+        this.options = JSON.parse(sessionStorage.getItem('regions'))
     },
     data() {
       return {

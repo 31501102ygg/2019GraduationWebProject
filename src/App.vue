@@ -15,6 +15,7 @@ export default {
         .then((json) => {
           var regions = json.data[0].children
           addOptions(regions)
+          sessionStorage.setItem('regions',JSON.stringify(regions))
           this.GLOBAL.REGIONS = regions
         })
         .catch(function(error) {
