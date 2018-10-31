@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '@/views/login1/index'
 import AdminPage from '@/views/layout/index'
 import UserManage from '@/views/content/managerUser'
+import AdminManange from '@/views/content/managerAdmin'
 
 Vue.use(Router)
 
@@ -20,6 +21,9 @@ export default new Router({
       children: [{
         path: 'user',
         component: UserManage
+      },{
+        path: 'admin',
+        component: AdminManange
       }]
     }
   ]

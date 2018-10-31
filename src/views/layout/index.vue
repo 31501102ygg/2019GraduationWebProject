@@ -78,10 +78,12 @@ var navbar = [
     name:'用户管理',
     children:[
       {
-        name:'网站用户'
+        name:'网站用户',
+        path:'/admin/page/manage/user'
       },
       {
-        name:'后台管理员'
+        name:'后台管理员',
+        path:'/admin/page/manage/admin'
       }
     ]
   },
@@ -134,7 +136,7 @@ export default {
     handleSelect(key, keyPath){
       console.log(keyPath)
       var index = keyPath[keyPath.length-1].match(/\d/g)
-      var nav=[],temp
+      var nav=[],temp,path
       for(let i of index){
         if(temp!=null)
           temp = temp.children[i-1]
@@ -143,8 +145,11 @@ export default {
         let ob = new Object();
         ob.name = temp.name
         nav.push(ob)
+        if(temp.path!=null)
+          path = temp.path
       }
       this.navBarName = nav
+      this.$router.push(path)
     },
     breadCrumbAdd(){
       console.log(document.getElementById("navbar"));

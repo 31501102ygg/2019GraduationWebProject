@@ -33,7 +33,7 @@
             </el-table-column>
              <el-table-column
             prop="nickname"
-            label="昵称"
+            label="姓名"
             width="120">
             </el-table-column>
             <el-table-column
@@ -157,7 +157,7 @@ export default {
         //设置请求头
         this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
         this.$axios
-        .post("/user/search", data)
+        .post("/admin/search", data)
         .then(function(res) {
           return Promise.resolve(res.data);
         })
@@ -215,7 +215,7 @@ export default {
         //设置请求头
         this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
         this.$axios
-        .post("/user/list", data)
+        .post("/admin/search", data)
         .then(function(res) {
             return Promise.resolve(res.data);
         })
