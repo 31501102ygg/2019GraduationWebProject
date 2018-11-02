@@ -53,8 +53,9 @@
                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button
                     size="mini"
+                    :disabled="scope.row.ban == 1"
                     type="danger"
-                    @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    @click="handleBanAccount(scope.$index, scope.row)">封号</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -122,13 +123,14 @@
 </template>
 
 <script>
-import qs from "qs";
-
 export default {
     name:"managerUser",
+    inject:['reload'],
     created(){
         this.$options.methods.getUserList.bind(this)(1);
-        this.options = JSON.parse(sessionStorage.getItem('regions'))
+        this.options = JSON.parse(sessionStorage.getItem('regions'));
+        //设置请求头
+        this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
     },
     data() {
       return {
@@ -154,8 +156,6 @@ export default {
             pageNum:1
         };
         console.log(data);
-        //设置请求头
-        this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
         this.$axios
         .post("/user/search", data)
         .then(function(res) {
@@ -190,8 +190,26 @@ export default {
           this.selectedOptions = linkFatherRegions(this.form.location)
         console.log(index, row);
       },
-      handleDelete(index, row) {
-        console.log(index, row);
+      handleBanAccount(index, row) {
+        this.$axios.get("/user/ban",{params:{username:row.username}})
+        .then((res)=>{
+            let data = Promise.resolve(res.data)
+            return data
+        }).then((data)=>{
+            if(data.code == "ACK"){
+                console.log("ACK")
+                this.$message({
+                    message: data.message,
+                    type:"success"
+                });
+                this.reload();
+            }else{
+                this.$message.error(data.message);
+            }
+        })
+        .catch(function(error) {
+          console.log(error);
+        })
       },
       submitUserForm(){
         console.log(this.form);
@@ -212,8 +230,6 @@ export default {
             pageNum:page,
             pageSize:10
         };
-        //设置请求头
-        this.$axios.defaults.headers.common['Authorization'] = sessionStorage.getItem('JWT');
         this.$axios
         .post("/user/list", data)
         .then(function(res) {
@@ -225,6 +241,7 @@ export default {
             for(var data of json.data.list){
               convertToString(data);
             }
+            console.log(this.tableData)
         })
         .catch(function(error) {
           console.log(error);

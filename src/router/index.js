@@ -4,6 +4,7 @@ import Login from '@/views/login1/index'
 import AdminPage from '@/views/layout/index'
 import UserManage from '@/views/content/managerUser'
 import AdminManange from '@/views/content/managerAdmin'
+import FilmManage from '@/views/content/managerFilm'
 
 Vue.use(Router)
 
@@ -24,6 +25,9 @@ export default new Router({
       },{
         path: 'admin',
         component: AdminManange
+      },{
+        path: 'film',
+        component: FilmManage
       }]
     }
   ]

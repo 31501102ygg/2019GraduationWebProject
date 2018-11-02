@@ -126,6 +126,7 @@ import qs from "qs";
 
 export default {
     name:"managerUser",
+    inject:['reload'],
     created(){
         this.$options.methods.getUserList.bind(this)(1);
         this.options = JSON.parse(sessionStorage.getItem('regions'))
@@ -192,6 +193,7 @@ export default {
       },
       handleDelete(index, row) {
         console.log(index, row);
+        this.reload()
       },
       submitUserForm(){
         console.log(this.form);

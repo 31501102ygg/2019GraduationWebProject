@@ -76,7 +76,7 @@ export default {
         .then((json) => {
             if(json.code == 'ACK'){
                 sessionStorage.setItem("JWT", json.data.token);
-                console.log('success login!!!')
+                sessionStorage.setItem('username',this.form.name)
                 if(json.data.role == "admin")
                     this.$router.push("/admin/page/manage/user")
                 else

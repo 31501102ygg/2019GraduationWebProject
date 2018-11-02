@@ -63,7 +63,7 @@
         </el-breadcrumb>
       </el-header>
       <el-main style="width:100%;height:90%">
-        <router-view ></router-view>
+        <router-view v-if="isRouterAlive"></router-view>
       </el-main>
     </el-container>
 </el-row>
@@ -91,7 +91,8 @@ var navbar = [
     name:'电影信息',
     children:[
         {
-          name:'电影上传'
+          name:'电影上传',
+          path:'/admin/page/manage/film'
         },
         {
           name:'后台管理员'
@@ -112,25 +113,29 @@ var navbar = [
 ];
 export default {
   name: "admin_layout",
+  provide (){
+     return {
+       reload:this.reload
+     }
+  },
   data() {
     return {
-        adminName: "ygg",
+        adminName: sessionStorage.getItem('username'),
         isCollapse:true,
         navBarWidth: 15,
         breadcrumb:{},
         navBarName:[
           {name:'用户管理'},
           {name:'网站用户'}
-          ]
+        ],
+        isRouterAlive:true
     };
   },
   methods: {
     handleOpen(key, keyPath) {
-      this.adminName = "123"
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      this.adminName = "ygg"
       console.log(key, keyPath);
     },
     handleSelect(key, keyPath){
@@ -153,6 +158,12 @@ export default {
     },
     breadCrumbAdd(){
       console.log(document.getElementById("navbar"));
+    },
+    reload (){
+       this.isRouterAlive = false
+       this.$nextTick(function(){
+          this.isRouterAlive = true
+       })
     }
   },
   components: {
