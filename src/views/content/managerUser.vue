@@ -85,12 +85,12 @@ export default {
   name: "managerUser",
   inject: ["reload"],
   created() {
-    this.$options.methods.getUserList.bind(this)(1);
-    this.options = JSON.parse(sessionStorage.getItem("regions"));
     //设置请求头
     this.$axios.defaults.headers.common[
       "Authorization"
     ] = sessionStorage.getItem("JWT");
+    this.$options.methods.getUserList.bind(this)(1);
+    this.options = JSON.parse(sessionStorage.getItem("regions"));
   },
   data() {
     return {

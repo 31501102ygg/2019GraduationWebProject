@@ -136,6 +136,9 @@ export default {
       reload: this.reload
     };
   },
+  created(){
+    this.$router.push("/admin/page/manage/user")
+  },
   data() {
     return {
       dialogFormVisible: false,
