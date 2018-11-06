@@ -22,10 +22,10 @@ export default new Router({
       children: [{
         path: 'user',
         component: UserManage
-      },{
+      }, {
         path: 'admin',
         component: AdminManange
-      },{
+      }, {
         path: 'film',
         component: FilmManage
       }]
