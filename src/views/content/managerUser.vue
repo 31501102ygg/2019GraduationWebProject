@@ -28,6 +28,7 @@
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" :disabled="scope.row.ban == 1" type="danger" @click="handleBanAccount(scope.$index, scope.row)">封号</el-button>
+            <el-button size="mini" :disabled="scope.row.ban == 0" type="danger" @click="handleUnBanAccount(scope.$index, scope.row)">解封</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -173,28 +174,66 @@ export default {
           console.log(error);
         });
     },
+    handleUnBanAccount(index, row) {
+      this.$axios
+        .get("/user/unban", { params: { username: row.username } })
+        .then(res => {
+          let data = Promise.resolve(res.data);
+          return data;
+        })
+        .then(data => {
+          if (data.code == "ACK") {
+            console.log("ACK");
+            this.$message({
+              message: data.message,
+              type: "success"
+            });
+            this.reload();
+          } else {
+            this.$message.error(data.message);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     submitUserForm() {
       console.log(this.form);
       this.$axios
         .post("/user/update", this.form)
         .then(function(res) {
-          console.log(res.messgae);
+          let data = Promise.resolve(res.data);
+          return data;
+        })
+        .then(data => {
+          if (data.code == "ACK") {
+            console.log("ACK");
+            this.$message({
+              message: data.message,
+              type: "success"
+            });
+            this.reload();
+          } else {
+            this.$message.error(data.message);
+          }
+          this.dialogFormVisible = false;
+          this.reload();
         })
         .catch(function(error) {
           console.log(error);
         });
-      this.dialogFormVisible = false;
     },
     getSelectPage(page) {
       this.$options.methods.getUserList.bind(this)(page);
     },
     getUserList(page) {
       var data = {
+        username: this.formInline.user,
         pageNum: page,
         pageSize: 10
       };
       this.$axios
-        .post("/user/list", data)
+        .post("/user/search", data)
         .then(function(res) {
           return Promise.resolve(res.data);
         })

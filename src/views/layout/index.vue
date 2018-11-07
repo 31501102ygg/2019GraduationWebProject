@@ -48,7 +48,7 @@
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="register">管理员注册</el-dropdown-item>
                 <el-dropdown-item command="adminInfo">管理员信息</el-dropdown-item>
-                <el-dropdown-item divided>退出</el-dropdown-item>
+                <el-dropdown-item divided command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-breadcrumb>
@@ -59,19 +59,19 @@
       </el-container>
 
       <el-dialog class="adminRegister" title="管理员用户注册" :visible.sync="dialogFormVisible">
-        <el-form :model="adminRegisterForm">
-          <el-form-item label="账号名" :label-width="formLabelWidth">
+        <el-form :rules="rules" ref="adminRegisterForm" :model="adminRegisterForm">
+          <el-form-item label="账号名" :label-width="formLabelWidth" prop="username">
             <el-input v-model="adminRegisterForm.username" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="密码" :label-width="formLabelWidth">
+          <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
             <el-input v-model="adminRegisterForm.password" autocomplete="off" :type="showPassword">
               <i slot="suffix" class="el-input__icon el-icon-view" @click="shownPassword"></i>
             </el-input>
           </el-form-item>
-          <el-form-item label="重复密码" :label-width="formLabelWidth">
+          <el-form-item label="重复密码" :label-width="formLabelWidth" prop="repeatPassword">
             <el-input v-model="adminRegisterForm.repeatPassword" autocomplete="off" type='password'></el-input>
           </el-form-item>
-          <el-form-item label="权限" :label-width="formLabelWidth">
+          <el-form-item label="权限" :label-width="formLabelWidth" prop="permission">
             <el-select v-model="adminRegisterForm.permission" placeholder="请选择管理员权限">
               <el-option label="root" value="root"></el-option>
               <el-option label="normal" value="normal"></el-option>
@@ -80,7 +80,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submitAdminRegisterForm">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -136,10 +136,31 @@ export default {
       reload: this.reload
     };
   },
-  created(){
-    this.$router.push("/admin/page/manage/user")
+  created() {
+    //设置请求头
+    this.$axios.defaults.headers.common[
+      "Authorization"
+    ] = sessionStorage.getItem("JWT");
+    this.$router.push("/admin/page/manage/user");
   },
   data() {
+    var validateEmpty = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("此处不能为空"));
+      } else {
+        callback();
+      }
+    };
+    var validatePassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("此处不能为空"));
+      } else {
+        if (value === this.adminRegisterForm.password) callback();
+        else {
+          callback(new Error("密码不相同"));
+        }
+      }
+    };
     return {
       dialogFormVisible: false,
       adminRegisterForm: {
@@ -155,7 +176,13 @@ export default {
       breadcrumb: {},
       navBarName: [{ name: "用户管理" }, { name: "网站用户" }],
       isRouterAlive: true,
-      showPassword: "password"
+      showPassword: "password",
+      rules: {
+        username: [{ validator: validateEmpty, trigger: "blur" }],
+        password: [{ validator: validateEmpty, trigger: "blur" }],
+        repeatPassword: [{ validator: validatePassword, trigger: "blur" }],
+        permission: [{ validator: validateEmpty, trigger: "blur" }]
+      }
     };
   },
   methods: {
@@ -164,9 +191,43 @@ export default {
       if (this.showPassword === "password") this.showPassword = "text";
       else this.showPassword = "password";
     },
+    submitAdminRegisterForm() {
+      this.$refs["adminRegisterForm"].validate(valid => {
+        if (valid) {
+          this.$axios
+            .post("admin/register", this.adminRegisterForm)
+            .then(res => {
+              let data = Promise.resolve(res.data);
+              return data;
+            })
+            .then(data => {
+              if (data.code == "ACK") {
+                console.log("ACK");
+                this.$message({
+                  message: data.message,
+                  type: "success"
+                });
+                this.$options.methods.emptyForm(this.adminRegisterForm)
+              } else {
+                this.$message.error(data.message)
+              }    
+              this.dialogFormVisible = false;
+            });
+        } else {
+          this.$message({
+            message: "请填写必填项",
+            type: "warning"
+          });
+        }
+      });
+    },
     handleNavCommand(command) {
       if (command === "register") {
         this.$options.methods.adminRegister.bind(this)();
+      }
+      if(command === "logout"){
+        sessionStorage.removeItem('JWT')
+        this.$router.push('/')
       }
     },
     adminRegister() {
@@ -204,6 +265,11 @@ export default {
       this.$nextTick(function() {
         this.isRouterAlive = true;
       });
+    },
+    emptyForm(form){
+      for(let property in form){
+        form[property] = '';
+      }
     }
   },
   components: {
@@ -230,14 +296,14 @@ export default {
 .el-breadcrumb__inner {
   color: white;
 }
-.adminRegister .el-input{
+.adminRegister .el-input {
   width: 80%;
   float: left;
 }
-.adminRegister .el-select{
+.adminRegister .el-select {
   float: left;
 }
-.adminRegister .dialog-footer{
+.adminRegister .dialog-footer {
   text-align: center;
 }
 </style>
