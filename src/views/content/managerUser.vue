@@ -183,7 +183,6 @@ export default {
         })
         .then(data => {
           if (data.code == "ACK") {
-            console.log("ACK");
             this.$message({
               message: data.message,
               type: "success"

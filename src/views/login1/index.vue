@@ -101,7 +101,7 @@ export default {
   margin: 0%;
 }
 .form-container {
-  background-image: url(../../assets/login-bg.jpg);
+  // background-image: url(../../assets/login-bg.jpg);
 }
 .form-item {
   margin: 10%;

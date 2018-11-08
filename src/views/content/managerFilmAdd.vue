@@ -7,7 +7,7 @@
         <el-form-item label="外文名">
             <el-input v-model="form.foreignName"></el-input>
         </el-form-item>
-        <el-form-item label="片长" prop="sheetLenth">
+        <el-form-item label="片长" prop="sheetLength">
             <el-input v-model="form.sheetLength"></el-input>
         </el-form-item>
         <el-form-item label="语言" prop="language">
@@ -62,6 +62,7 @@
 
 <script>
 export default {
+  inject: ["reload"],
   created() {
     this.$axios.defaults.headers.common[
       "Authorization"
@@ -79,8 +80,17 @@ export default {
       if (value === "") {
         callback(new Error("此处不能为空"));
       } else {
-        if (!Number.isInteger(value)) callback(new Error("请输入整数"));
-        else callback();
+        console.log(typeof(value))
+        let tempValue = value.match(/\d+/g)
+        console.log(tempValue)
+        if(tempValue.length === 1) {
+          if(tempValue[0].length === value.length)
+            callback()
+          else
+            callback(new Error("输入中有空格"))
+        }else{
+            callback(new Error("请输入整数"))
+        }
       }
     };
     return {
@@ -211,6 +221,7 @@ export default {
               message: data.message,
               type: "success"
             });
+            this.reload()
           } else {
             this.$message.error(data.message);
           }

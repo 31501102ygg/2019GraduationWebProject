@@ -51,6 +51,7 @@ const Film_Language = [
   { value: "英语", label: "英语" },
   { value: "粤语", label: "粤语" },
   { value: "汉语普通话", label: "汉语普通话" },
+  { value: "法语", label: "法语" },
   { value: "泰语", label: "泰语" },
   { value: "波兰语", label: "波兰语" },
   { value: "拉丁语", label: "拉丁语" },

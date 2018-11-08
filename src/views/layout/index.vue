@@ -20,7 +20,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="2-1">电影上传</el-menu-item>
-              <el-menu-item index="2-2">后台管理员</el-menu-item>
+              <el-menu-item index="2-2">电影管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
@@ -113,7 +113,8 @@ var navbar = [
         path: "/admin/page/manage/film"
       },
       {
-        name: "后台管理员"
+        name: "电影管理",
+        path: "/admin/page/manage/filmlist"
       }
     ]
   },
@@ -207,10 +208,10 @@ export default {
                   message: data.message,
                   type: "success"
                 });
-                this.$options.methods.emptyForm(this.adminRegisterForm)
+                this.$options.methods.emptyForm(this.adminRegisterForm);
               } else {
-                this.$message.error(data.message)
-              }    
+                this.$message.error(data.message);
+              }
               this.dialogFormVisible = false;
             });
         } else {
@@ -225,9 +226,9 @@ export default {
       if (command === "register") {
         this.$options.methods.adminRegister.bind(this)();
       }
-      if(command === "logout"){
-        sessionStorage.removeItem('JWT')
-        this.$router.push('/')
+      if (command === "logout") {
+        sessionStorage.removeItem("JWT");
+        this.$router.push("/");
       }
     },
     adminRegister() {
@@ -243,10 +244,12 @@ export default {
     handleSelect(key, keyPath) {
       console.log(keyPath);
       var index = keyPath[keyPath.length - 1].match(/\d/g);
+        console.log(index);
       var nav = [],
         temp,
         path;
       for (let i of index) {
+        console.log(i);
         if (temp != null) temp = temp.children[i - 1];
         else temp = navbar[i - 1];
         let ob = new Object();
@@ -266,9 +269,9 @@ export default {
         this.isRouterAlive = true;
       });
     },
-    emptyForm(form){
-      for(let property in form){
-        form[property] = '';
+    emptyForm(form) {
+      for (let property in form) {
+        form[property] = "";
       }
     }
   },
