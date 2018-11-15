@@ -109,7 +109,7 @@
 
     </div>
     <div style="float:left">
-      <el-pagination page-size="2" background layout="prev, pager, next" @current-change="getSelectPage" :total="pageNumber">
+      <el-pagination page-size="10" background layout="prev, pager, next" @current-change="getSelectPage" :total="pageNumber">
       </el-pagination>
     </div>
   </div>
@@ -129,7 +129,7 @@ export default {
 
     var data = {
       pageNum: 1,
-      pageSize: 2
+      pageSize: 10
     };
     this.$options.methods.getFilmList.bind(this)(data);
     this.options = JSON.parse(sessionStorage.getItem("regions"));
@@ -187,7 +187,7 @@ export default {
     },
     onSubmitSearch(pageNum) {
       this.formInline.pageNum = pageNum;
-      this.formInline.pageSize = 2;
+      this.formInline.pageSize = 10;
       this.$options.methods.getFilmList.bind(this)(this.formInline);
     },
     toggleSelection(rows) {
@@ -213,7 +213,7 @@ export default {
     },
     getSelectPage(page) {
       this.formInline.pageNum = page;
-      this.formInline.pageSize = 2;
+      this.formInline.pageSize = 10;
       this.$options.methods.getFilmList.bind(this)(this.formInline);
     },
     getFilmList(data) {
