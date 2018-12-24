@@ -21,6 +21,7 @@
             <el-menu-item-group>
               <el-menu-item index="2-1">电影上传</el-menu-item>
               <el-menu-item index="2-2">电影管理</el-menu-item>
+              <el-menu-item index="2-3">幻灯片管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
@@ -115,6 +116,10 @@ var navbar = [
       {
         name: "电影管理",
         path: "/admin/page/manage/filmlist"
+      },
+      {
+        name: "幻灯片管理",
+        path: "/admin/page/manage/filmslide"
       }
     ]
   },

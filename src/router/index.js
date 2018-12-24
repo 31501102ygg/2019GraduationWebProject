@@ -5,7 +5,8 @@ import AdminPage from '@/views/layout/index'
 import UserManage from '@/views/content/managerUser'
 import AdminManange from '@/views/content/managerAdmin'
 import FilmAddManage from '@/views/content/managerFilmAdd'
-import FileListManage from '@/views/content/managerFilmList'
+import FilmListManage from '@/views/content/managerFilmList'
+import FilmSlideManage from '@/views/content/managerFilmSlide'
 
 Vue.use(Router)
 
@@ -31,7 +32,10 @@ export default new Router({
         component: FilmAddManage
       },{
         path: 'filmlist',
-        component:FileListManage
+        component:FilmListManage
+      },{
+        path: 'filmslide',
+        component:FilmSlideManage
       }]
     }
   ]
