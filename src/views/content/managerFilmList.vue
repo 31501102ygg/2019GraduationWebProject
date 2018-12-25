@@ -267,6 +267,9 @@ function linkFatherRegions(region) {
   .el-textarea.is-disabled .el-textarea__inner {
     color: #606266;
   }
+  .el-dialog__footer{
+    height: 70px;
+  }
 }
 </style>
 
