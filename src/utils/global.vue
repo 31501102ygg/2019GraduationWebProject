@@ -1,4 +1,5 @@
 <script>
+// const BASE_URL = "http://47.107.70.187:8090/";
 const BASE_URL = "http://localhost:8090/";
 const Film_Type = [
   { value: "剧情", label: "剧情" },

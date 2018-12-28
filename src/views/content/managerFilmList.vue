@@ -109,7 +109,7 @@
 
     </div>
     <div style="float:left">
-      <el-pagination page-size="10" background layout="prev, pager, next" @current-change="getSelectPage" :total="pageNumber">
+      <el-pagination :page-size="pageSize" background layout="prev, pager, next" @current-change="getSelectPage" :total="pageNumber">
       </el-pagination>
     </div>
   </div>
@@ -137,6 +137,7 @@ export default {
   data() {
     return {
       pageNumber: 0,
+      pageSize:10,
       filmInfoModifyAble: true,
       dialogFormVisible: false,
       formInline: {
