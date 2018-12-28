@@ -1,7 +1,7 @@
 # movie_web
 
 > 2019_Graduation_Project_vue_web
-
+毕业设计前端后台管理界面
 ## Build Setup
 
 ``` bash
