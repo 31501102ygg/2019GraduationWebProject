@@ -88,7 +88,7 @@ export default {
   inject: ["reload"],
   created() {
     this.$options.methods.getUserList.bind(this)(1);
-    this.options = JSON.parse(sessionStorage.getItem("regions"));
+    this.options = this.GLOBAL.REGIONS;
   },
   data() {
     return {
@@ -159,7 +159,7 @@ export default {
     submitUserForm() {
       console.log(this.form);
       this.$axios
-        .post("/user/update", this.form)
+        .post("/admin/update", this.form)
         .then(function(res) {
           console.log(res.messgae);
         })

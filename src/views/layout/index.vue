@@ -35,6 +35,7 @@
                 @click.native.prevent="breadCrumbAdd"
               >网站用户</el-menu-item>
               <el-menu-item index="1-2">后台管理员</el-menu-item>
+              <el-menu-item index="1-3">专家申请</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -62,8 +63,8 @@
               <span>影评信息</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="3-1">电影影评</el-menu-item>
-              <el-menu-item index="3-2">后台管理员</el-menu-item>
+              <el-menu-item index="3-1">普通影评</el-menu-item>
+              <el-menu-item index="3-2">专家影评</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -213,6 +214,10 @@ var navbar = [
       {
         name: "后台管理员",
         path: "/admin/page/manage/admin"
+      },
+      {
+        name: "专家申请",
+        path: "/admin/page/manage/askpro"
       }
     ]
   },
@@ -237,10 +242,12 @@ var navbar = [
     name: "影评信息",
     children: [
       {
-        name: "电影影评"
+        name: "普通影评",
+        path: "/admin/page/manage/commentary"
       },
       {
-        name: "后台管理员"
+        name: "专业影评",
+        path: "/admin/page/manage/commentary/pro"
       }
     ]
   }

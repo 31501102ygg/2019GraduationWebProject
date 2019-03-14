@@ -132,7 +132,7 @@ export default {
       pageSize: 10
     };
     this.$options.methods.getFilmList.bind(this)(data);
-    this.options = JSON.parse(sessionStorage.getItem("regions"));
+    this.options = this.GLOBAL.REGIONS;
   },
   data() {
     return {

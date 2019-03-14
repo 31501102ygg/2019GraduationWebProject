@@ -91,7 +91,7 @@ export default {
       "Authorization"
     ] = sessionStorage.getItem("JWT");
     this.$options.methods.getUserList.bind(this)(1);
-    this.options = JSON.parse(sessionStorage.getItem("regions"));
+    this.options = this.GLOBAL.REGIONS;
   },
   data() {
     return {

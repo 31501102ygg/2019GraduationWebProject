@@ -4,9 +4,12 @@ import Login from '@/views/login/index'
 import AdminPage from '@/views/layout/index'
 import UserManage from '@/views/content/managerUser'
 import AdminManange from '@/views/content/managerAdmin'
+import AskProManage from '@/views/content/manageAskPro'
 import FilmAddManage from '@/views/content/managerFilmAdd'
 import FilmListManage from '@/views/content/managerFilmList'
 import FilmSlideManage from '@/views/content/managerFilmSlide'
+import CommentaryManage from '@/views/content/managerCommentary'
+import ProCommentaryManage from '@/views/content/managerCommentaryPro'
 
 Vue.use(Router)
 
@@ -28,6 +31,9 @@ export default new Router({
         path: 'admin',
         component: AdminManange
       }, {
+        path: 'askpro',
+        component: AskProManage
+      }, {
         path: 'film',
         component: FilmAddManage
       },{
@@ -36,6 +42,12 @@ export default new Router({
       },{
         path: 'filmslide',
         component:FilmSlideManage
+      },{
+        path: 'commentary',
+        component:CommentaryManage
+      },{
+        path: 'commentary/pro',
+        component:ProCommentaryManage
       }]
     }
   ]

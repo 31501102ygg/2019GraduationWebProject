@@ -8,20 +8,21 @@
 export default {
   name: "App",
   created() {
-    this.$axios
-      .get("SRegion/listAll")
-      .then(function(res) {
-        return Promise.resolve(res.data);
-      })
-      .then(json => {
-        var regions = json.data[0].children;
-        addOptions(regions);
-        sessionStorage.setItem("regions", JSON.stringify(regions));
-        this.GLOBAL.REGIONS = regions;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    // this.$axios
+    //   .get("SRegion/listAll")
+    //   .then(function(res) {
+    //     return Promise.resolve(res.data);
+    //   })
+    //   .then(json => {
+    //     var regions = json[0].children;
+    //     addOptions(regions);
+    //     sessionStorage.setItem("regions", JSON.stringify(regions));
+    //     this.GLOBAL.REGIONS = regions;
+    //     console.log(this.GLOBAL.REGIONS)
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
   }
 };
 
