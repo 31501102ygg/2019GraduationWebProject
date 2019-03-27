@@ -1,6 +1,6 @@
 <script>
-// const BASE_URL = "http://47.107.70.187:8090/";
-const BASE_URL = "http://localhost:8090/";
+const BASE_URL = "http://47.107.70.187:8090/";
+// const BASE_URL = "http://localhost:8090/";
 const ASK_PRO_STATE = [
   {value: 0, label: "未审核" },
   {value: 1, label: "已通过" },

@@ -113,7 +113,6 @@ export default {
         pageSize: 10,
         pageNum: 1
       };
-      console.log(data);
       //设置请求头
       this.$axios.defaults.headers.common[
         "Authorization"
@@ -142,7 +141,6 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(val);
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true;
@@ -150,18 +148,21 @@ export default {
       this.selectedOptions = [];
       if (this.form.location != null)
         this.selectedOptions = linkFatherRegions(this.form.location);
-      console.log(index, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
       this.reload();
     },
     submitUserForm() {
-      console.log(this.form);
       this.$axios
         .post("/admin/update", this.form)
         .then(function(res) {
-          console.log(res.messgae);
+          return Promise.resolve(res.data)
+        })
+        .then(json=>{
+          this.$message({
+            type: "info",
+            message: json.message
+          });
         })
         .catch(function(error) {
           console.log(error);
@@ -198,7 +199,6 @@ export default {
     },
     regionChange(value) {
       this.form.location = value[value.length - 1];
-      console.log(this.form.location);
     }
   }
 };

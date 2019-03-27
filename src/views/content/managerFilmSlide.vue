@@ -340,7 +340,6 @@ export default {
       return isJPG && isLt2M;
     },
     changeUploadImgURL(file) {
-      console.log(file);
       this.upload_img = URL.createObjectURL(file.raw);
     },
     submitUpload() {
@@ -348,8 +347,6 @@ export default {
     },
     //幻灯片图片更换成功调用的函数
     handleAvatarSuccess(res, file) {
-      console.log(res);
-      console.log(file);
     },
     //幻灯片添加成功调用的函数
     handleAddSlideSuccess(res, file) {

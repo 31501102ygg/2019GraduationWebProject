@@ -355,10 +355,8 @@ export default {
       this.dialogFormVisible = true;
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
     },
     handleSelect(key, keyPath) {
       var index = keyPath[keyPath.length - 1].match(/\d/g);
@@ -377,7 +375,7 @@ export default {
       this.$router.push(path);
     },
     breadCrumbAdd() {
-      console.log(document.getElementById("navbar"));
+      // console.log(document.getElementById("navbar"));
     },
     reload() {
       this.isRouterAlive = false;

@@ -111,8 +111,8 @@ export default {
     return {
       loading: false,
       form: {
-        name: "ygg",
-        password: "123456"
+        name: "",
+        password:"" 
       }
     };
   },
@@ -143,7 +143,6 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-      console.log("login");
     }
   },
   components: {

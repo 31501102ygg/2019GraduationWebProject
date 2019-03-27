@@ -202,15 +202,13 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(val);
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true;
       this.form = row;
     },
     handleDelete(index, row) {
-      console.log(index, row);
-      this.reload();
+      this.$options.methods.openDelete.bind(this)(row.id)
     },
     getSelectPage(page) {
       this.formInline.pageNum = page;
@@ -224,7 +222,6 @@ export default {
           return Promise.resolve(res.data);
         })
         .then(json => {
-          console.log(json);
           this.pageNumber = json.data.pageNumber;
           this.tableData = json.data.list;
           for (var data of json.data.list) {
@@ -237,7 +234,37 @@ export default {
     },
     regionChange(value) {
       this.form.location = value[value.length - 1];
-      console.log(this.form.location);
+    },
+    openDelete(id) {
+      this.$confirm("此操作将删除该电影, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$options.methods.deleteMovie.bind(this)(id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    deleteMovie(id){
+      if(id<0)
+        return;
+      let url = this.GLOBAL.BASE_URL+"movie/delete?id="+id;
+      this.$axios.get(url)
+      .then(res=>{return Promise.resolve(res.data)})
+      .then(json=>{
+        this.$message({
+            type: "info",
+            message: json.message
+          });
+        this.reload();
+      })
+      .catch(error=>{console.log(error)})
     }
   }
 };

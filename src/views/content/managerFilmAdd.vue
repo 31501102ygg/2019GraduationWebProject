@@ -80,9 +80,7 @@ export default {
       if (value === "") {
         callback(new Error("此处不能为空"));
       } else {
-        console.log(typeof(value))
         let tempValue = value.match(/\d+/g)
-        console.log(tempValue)
         if(tempValue.length === 1) {
           if(tempValue[0].length === value.length)
             callback()
@@ -162,7 +160,6 @@ export default {
           if (this.imgFileSize > 0) {
             this.$refs.upload_img.submit();
           } else {
-            console.log(this.form);
             this.$options.methods.submitFilmFormDate.bind(this)();
           }
         } else {
@@ -174,8 +171,6 @@ export default {
       });
     },
     overLimit(files, fileList) {
-      console.log(fileList);
-      console.log(this.film_type);
       this.$message("只能上传一张图片");
     },
     imgUpload(data) {
@@ -210,13 +205,11 @@ export default {
       this.$axios
         .post("/movie/add", this.form)
         .then(res => {
-          console.log(res);
           let data = Promise.resolve(res.data);
           return data;
         })
         .then(data => {
           if (data.code == "ACK") {
-            console.log("ACK");
             this.$message({
               message: data.message,
               type: "success"

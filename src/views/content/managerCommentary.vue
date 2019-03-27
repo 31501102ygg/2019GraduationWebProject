@@ -68,7 +68,7 @@
       >
       </el-table-column>
       <el-table-column
-        prop="like"
+        prop="likeNumber"
         label="点赞数"
         width="120"
       >
