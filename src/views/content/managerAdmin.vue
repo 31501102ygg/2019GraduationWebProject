@@ -150,7 +150,44 @@ export default {
         this.selectedOptions = linkFatherRegions(this.form.location);
     },
     handleDelete(index, row) {
+      this.$options.methods.openDelete.bind(this)(row.id)
+    },
+    openDelete(id) {
+      this.$confirm("此操作将删除该管理员, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$options.methods.delete.bind(this)(id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    delete(id){
+      let url = this.GLOBAL.BASE_URL+"admin/delete?adminId="+id;
+      //设置请求头
+      this.$axios.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("JWT");
+      this.$axios.get(url)
+      .then(res=>{return Promise.resolve(res.data)})
+      .then(json=>{
+        if(json.code==="ACK"){
+          this.$message({
+            type: "success",
+            message: json.message
+          });
+        }else{
+          this.$message.error(json.message)
+        }
       this.reload();
+      })
+      .catch(error=>{this.$message.error(error)})
     },
     submitUserForm() {
       this.$axios

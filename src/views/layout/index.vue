@@ -102,7 +102,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="register">管理员注册</el-dropdown-item>
-                <el-dropdown-item command="adminInfo">管理员信息</el-dropdown-item>
+                <!-- <el-dropdown-item command="adminInfo">管理员信息</el-dropdown-item> -->
                 <el-dropdown-item
                   divided
                   command="logout"

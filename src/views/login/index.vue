@@ -25,7 +25,7 @@
                 <el-form-item class="form-item">
                   <span style="font-size:30px">电影影评网站后台管理</span>
                 </el-form-item>
-                <el-form-item class="form-item">
+                <el-form-item class="form-item group1">
                   <icon
                     style="float:left;"
                     name="user"
@@ -34,11 +34,11 @@
                     :h="40"
                   ></icon>
                   <el-input
-                    style="width:80%"
+                    style="width:70%"
                     v-model="form.name"
                   ></el-input>
                 </el-form-item>
-                <el-form-item class="form-item">
+                <el-form-item class="form-item group1">
                   <icon
                     style="float:left;"
                     name="password"
@@ -47,14 +47,14 @@
                     :h="40"
                   ></icon>
                   <el-input
-                    style="width:80%"
+                    style="width:70%"
                     v-model="form.password"
                     type="password"
                   ></el-input>
                 </el-form-item>
-                <el-form-item class="form-item">
+                <el-form-item class="form-item group1">
                   <el-button
-                    style="width:80%"
+                    style="width:70%"
                     type="primary"
                     @click.native.prevent="login"
                   >
@@ -162,10 +162,13 @@ export default {
   margin: 10%;
   margin-left: 0px;
 }
+.group1{
+  text-align: right;
+}
 .box-card {
   background-color: #dcdfe6;
   text-align: center;
-  width: 80%;
+  width: 70%;
   height: 500px;
 }
 </style>
