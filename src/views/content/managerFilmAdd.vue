@@ -11,19 +11,19 @@
             <el-input v-model="form.sheetLength"></el-input>
         </el-form-item>
         <el-form-item label="语言" prop="language">
-            <el-select class="filmPropertySelector" v-model="fileLanguage" multiple placeholder="电影类型">
-                <el-option v-for="item in file_language" :key="item.value" :label="item.label" :value="item.value">
+            <el-select class="filmPropertySelector" v-model="filmLanguage" multiple placeholder="电影类型">
+                <el-option v-for="item in film_language" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="电影类型" prop="type">
-            <el-select v-model="fileType" multiple placeholder="电影类型">
+            <el-select v-model="filmType" multiple placeholder="电影类型">
                 <el-option v-for="item in film_type" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="制片国家" prop="makeState">
-            <el-select v-model="fileCountry" multiple placeholder="制片国家">
+            <el-select v-model="filmCountry" multiple placeholder="制片国家">
                 <el-option v-for="item in film_country" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
             </el-select>
@@ -53,9 +53,9 @@
                 </div>
             </el-upload>
         </el-form-item>
-        <el-form-item>
+        <el-form-item style="text-align:left">
             <el-button type="primary" @click="onSubmit()">确认添加</el-button>
-            <el-button>取消</el-button>
+            <el-button @click="resetAddForm">重 置</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -85,20 +85,31 @@ export default {
           if(tempValue[0].length === value.length)
             callback()
           else
-            callback(new Error("输入中有空格"))
-        }else{
             callback(new Error("请输入整数"))
+        }else{
+            callback(new Error("你输入的字符中有空格"))
         }
       }
     };
+    var validateList = (rule,value,callback) => {
+      if(value == null){
+        callback(new Error("此处不能为空"));
+      }else{
+        if(value.length>0)
+          callback()
+        else{
+          callback(new Error("请至少选择一个选项"))
+        }
+      }
+    }
     return {
       film_type: this.GLOBAL.Film_Type,
       film_country: this.GLOBAL.Film_Country,
-      file_language: this.GLOBAL.Film_Language,
+      film_language: this.GLOBAL.Film_Language,
       fileList: [],
-      fileType: [],
-      fileCountry: [],
-      fileLanguage: [],
+      filmType: [],
+      filmCountry: [],
+      filmLanguage: [],
       imgFileSize: 0,
       Authorization: {
         Authorization: sessionStorage.getItem("JWT")
@@ -131,21 +142,21 @@ export default {
     };
   },
   watch: {
-    fileType(newType, oldType) {
+    filmType(newType, oldType) {
       let types = "";
       for (let a of newType) {
         types += a + "/";
       }
       this.form.type = types.substring(0, types.length - 1);
     },
-    fileCountry(newType, oldType) {
+    filmCountry(newType, oldType) {
       let types = "";
       for (let a of newType) {
         types += a + "/";
       }
       this.form.makeState = types.substring(0, types.length - 1);
     },
-    fileLanguage(newType, oldType) {
+    filmLanguage(newType, oldType) {
       let types = "";
       for (let a of newType) {
         types += a + "/";
@@ -222,6 +233,15 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    resetAddForm(){
+      for(let index in this.form){
+        this.form[index] = "";
+      }
+      this.filmCountry = [];
+      this.filmLanguage = [];
+      this.filmType = [];
+      this.fileList = [];
     }
   }
 };
@@ -239,8 +259,8 @@ export default {
 .el-select > .el-input {
   width: 100%;
 }
-.el-upload {
-  float: left;
+.upload-demo{
+  text-align: left;
 }
 .el-upload-list {
   float: left;

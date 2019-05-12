@@ -98,8 +98,9 @@
         <el-form :model="commentary">
           <div class="article"  v-html="commentary.content"></div>
         </el-form>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer info-button">
           <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="danger" @click="handleBanAccount(commentary.userName)">封 号</el-button>
         </span>
       </el-dialog>
   </div>
@@ -184,6 +185,41 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    handleBanAccount(username) {
+      this.$confirm("确认对该用户给予封号处理, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+        .get("/user/ban", { params: { username: username } })
+        .then(res => {
+          let data = Promise.resolve(res.data);
+          return data;
+        })
+        .then(data => {
+          if (data.code == "ACK") {
+            this.$message({
+              message: data.message,
+              type: "success"
+            });
+            dialogFormVisible = false;
+          } else {
+            this.$message.error(data.message);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };
@@ -203,5 +239,9 @@ export default {
 
 .article img {
   max-width: 100%;
+}
+
+.info-button {
+  padding-right: 5%;
 }
 </style>

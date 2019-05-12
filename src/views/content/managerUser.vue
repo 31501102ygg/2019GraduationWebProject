@@ -116,7 +116,6 @@ export default {
         pageSize: 10,
         pageNum: 1
       };
-      console.log(data);
       this.$axios
         .post("/user/search", data)
         .then(function(res) {
@@ -141,7 +140,6 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(val);
     },
     handleEdit(index, row) {
       this.dialogFormVisible = true;
@@ -149,7 +147,6 @@ export default {
       this.selectedOptions = [];
       if (this.form.location != null)
         this.selectedOptions = linkFatherRegions(this.form.location);
-      console.log(index, row);
     },
     handleBanAccount(index, row) {
       this.$axios
@@ -160,7 +157,6 @@ export default {
         })
         .then(data => {
           if (data.code == "ACK") {
-            console.log("ACK");
             this.$message({
               message: data.message,
               type: "success"
@@ -197,7 +193,6 @@ export default {
         });
     },
     submitUserForm() {
-      console.log(this.form);
       this.$axios
         .post("/user/update", this.form)
         .then(function(res) {
@@ -206,7 +201,6 @@ export default {
         })
         .then(data => {
           if (data.code == "ACK") {
-            console.log("ACK");
             this.$message({
               message: data.message,
               type: "success"
@@ -242,7 +236,6 @@ export default {
           for (var data of json.data.list) {
             convertToString(data);
           }
-          console.log(this.tableData);
         })
         .catch(function(error) {
           console.log(error);
@@ -250,7 +243,6 @@ export default {
     },
     regionChange(value) {
       this.form.location = value[value.length - 1];
-      console.log(this.form.location);
     }
   }
 };
@@ -270,7 +262,7 @@ function linkFatherRegions(region) {
 }
 </script>
 
-<style>
+<style scoped>
 .el-form-item_label {
   text-align: center;
 }

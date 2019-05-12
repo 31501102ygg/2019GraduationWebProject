@@ -255,7 +255,7 @@ function linkFatherRegions(region) {
 }
 </script>
 
-<style>
+<style scoped>
 .el-form-item_label {
   text-align: center;
 }

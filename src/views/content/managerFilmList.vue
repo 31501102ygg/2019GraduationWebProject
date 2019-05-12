@@ -284,7 +284,7 @@ function linkFatherRegions(region) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .filmInfoDialog {
   .el-dialog {
     width: 70%;

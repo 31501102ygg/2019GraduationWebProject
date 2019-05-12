@@ -2,6 +2,7 @@
   <div>
     <el-container>
       <el-button
+        class="addHDP"
         type="primary"
         @click="AddFormVisible=true"
       >添加幻灯片</el-button>
@@ -571,7 +572,7 @@ export default {
   background: #f0f9eb;
 }
 
-.el-button {
+.addHDP{
   float: left;
   margin-left: 10px;
 }
